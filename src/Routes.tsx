@@ -8,7 +8,8 @@ function Routes() {
     <Route>
       <Route path="/" element={<Home />} />,
       <Route path="/shop" element={<Shop />} />,
-      <Route path="/about" element={<About />} />
+      <Route path="/about" element={<About />} />,
+      <Route path="*" element={(<div> Not Found</div>)} />
     </Route>
   ));
 
