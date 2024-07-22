@@ -1,8 +1,12 @@
 import { memo } from "react"
+import { Button } from "../../components/ui/button"
 
 function Home() {
   return (
-    <div>Home</div>
+    <>
+      <Button variant="outline">Button</Button>
+    </>
+
   )
 }
 
