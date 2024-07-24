@@ -1,28 +1,51 @@
 import { Button } from "../../../components/ui/button"
 import { Card, CardContent, CardFooter } from "../../../components/ui/card"
+import { formatCurrency } from "../../../lib/formatCurrency";
 
 
-
-type ShopCartProps = {
+export type ProductProps = {
   id: number,
-  name: string,
-  price: number
+  category: string,
+  title: string;
+  price: number;
+  image: string;
+  description: string;
+  rating: {
+    rate: number,
+    count: number
+  }
 }
 
-function ShopCart({ id, name, price }: ShopCartProps) {
-  console.log(id)
+type ShopItemProps = {
+  product: ProductProps;
+  itemCount?: number
+}
+
+
+function ShopCart({ product, itemCount = 0 }: ShopItemProps) {
+
   return (
     <Card>
-      <CardContent >
-        <p>Card Content</p>
+      <CardContent className=" py-4 flex justify-center border-b" >
+        <img className="h-52  object-cover " src={product.image} alt={product.title} />
       </CardContent>
-      <CardFooter className=" grid grid-cols-1 grid-rows-2">
-        <div className=" flex justify-between">
-          <p>{name}</p>
-          <p>{price}</p>
+      <CardFooter className=" grid row-auto grid-cols-1 gap-3 grid-rows-[30px_minmax(50px,_1fr)] p-5">
+        <div className=" flex justify-between gap-4 ">
+          <p className=" w-8/12 truncate" >{product.title}</p>
+          <p>{formatCurrency(product.price)}</p>
         </div>
-        <div>
-          <Button className=" w-full">Add to Cart</Button>
+        <div className=" flex flex-col items-center justify-center ">
+          {itemCount === 0 ? (
+            <Button className=" w-full">Add to Cart</Button>
+          ) : (
+            <div className="flex flex-col justify-center  gap-2">
+              <div className="flex justify-center gap-2 items-center">
+                <Button>+</Button>{itemCount}<Button>-</Button>
+              </div>
+              <Button variant="destructive" className=" w-full">Remove</Button>
+            </div>
+          )}
+
         </div>
       </CardFooter>
     </Card>
