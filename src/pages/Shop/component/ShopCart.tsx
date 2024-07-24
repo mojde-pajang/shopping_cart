@@ -1,5 +1,6 @@
 import { Button } from "../../../components/ui/button"
 import { Card, CardContent, CardFooter } from "../../../components/ui/card"
+import { useShoppingCartContext } from "../../../context/shoppingCartContext";
 import { formatCurrency } from "../../../lib/formatCurrency";
 
 
@@ -18,12 +19,13 @@ export type ProductProps = {
 
 type ShopItemProps = {
   product: ProductProps;
-  itemCount?: number
 }
 
 
-function ShopCart({ product, itemCount = 0 }: ShopItemProps) {
+function ShopCart({ product }: ShopItemProps) {
+  const { getQuantity, increaseQuantity, decreaseQuantity, removeFromCart } = useShoppingCartContext()
 
+  const itemCount = getQuantity(product.id);
   return (
     <Card>
       <CardContent className=" py-4 flex justify-center border-b" >
@@ -36,13 +38,15 @@ function ShopCart({ product, itemCount = 0 }: ShopItemProps) {
         </div>
         <div className=" flex flex-col items-center justify-center ">
           {itemCount === 0 ? (
-            <Button className=" w-full">Add to Cart</Button>
+            <Button className=" w-full" onClick={() => increaseQuantity(product.id)}>Add to Cart</Button>
           ) : (
             <div className="flex flex-col justify-center  gap-2">
               <div className="flex justify-center gap-2 items-center">
-                <Button>+</Button>{itemCount}<Button>-</Button>
+                <Button onClick={() => increaseQuantity(product.id)} >+</Button>
+                {itemCount}
+                <Button onClick={() => decreaseQuantity(product.id)} >-</Button>
               </div>
-              <Button variant="destructive" className=" w-full">Remove</Button>
+              <Button variant="destructive" className=" w-full" onClick={() => removeFromCart(product.id)}>Remove</Button>
             </div>
           )}
 

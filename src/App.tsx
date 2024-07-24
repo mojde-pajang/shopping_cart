@@ -1,9 +1,12 @@
+import { ShoppingCartProvider } from "./context/shoppingCartContext"
 import Routes from "./Routes"
 
 function App() {
 
   return (
-    <Routes />
+    <ShoppingCartProvider>
+      <Routes />
+    </ShoppingCartProvider>
   )
 }
 
