@@ -38,11 +38,11 @@ function ShopCart({ product }: ShopItemProps) {
         </div>
         <div className=" flex flex-col items-center justify-center ">
           {itemCount === 0 ? (
-            <Button className=" w-full" onClick={() => increaseQuantity(product.id)}>Add to Cart</Button>
+            <Button className=" w-full" onClick={() => increaseQuantity(product)}>Add to Cart</Button>
           ) : (
             <div className="flex flex-col justify-center  gap-2">
               <div className="flex justify-center gap-2 items-center">
-                <Button onClick={() => increaseQuantity(product.id)} >+</Button>
+                <Button onClick={() => increaseQuantity(product)} >+</Button>
                 {itemCount}
                 <Button onClick={() => decreaseQuantity(product.id)} >-</Button>
               </div>

@@ -1,5 +1,7 @@
 /* eslint-disable react-refresh/only-export-components */
 import { createContext, ReactNode, useContext, useState } from "react";
+import ShopCartDrawer from "../components/ShopCartDawer/ShopCartDrawer";
+import { ProductProps } from "../pages/Shop/component/ShopCart";
 
 type shoppingCartProviderProps = {
   children: ReactNode
@@ -8,16 +10,17 @@ type shoppingCartProviderProps = {
 type shoppingCartContext = {
   openShopCart: () => void;
   closeShopCart: () => void;
-  increaseQuantity: (id: number) => void
+  increaseQuantity: (product: ProductProps) => void
   decreaseQuantity: (id: number) => void
   removeFromCart: (id: number) => void
   getQuantity: (id: number) => number
   cartQuantity: number;
-  cartItems: CartItem[];
+  cartItems: CartItemProps[];
 }
 
-type CartItem = {
+export type CartItemProps = {
   id: number;
+  price: number;
   quantity: number;
 }
 
@@ -32,20 +35,20 @@ export function useShoppingCartContext() {
 
 export function ShoppingCartProvider({ children }: shoppingCartProviderProps) {
 
-  const [items, setItems] = useState<CartItem[]>([]);
+  const [items, setItems] = useState<CartItemProps[]>([]);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isOpen, setIsOpen] = useState(false);
 
   function getQuantity(id: number) {
     return items.find((item) => item.id === id)?.quantity || 0;
   }
-  function increaseQuantity(id: number) {
-    if (items.find((item) => item.id === id) == null) {
-      setItems(value => [...value, { id, quantity: 1 }])
+  function increaseQuantity(product: ProductProps) {
+    if (items.find((item) => item.id === product.id) == null) {
+      setItems(value => [...value, { id: product.id, quantity: 1, price: product.price }])
     } else {
       setItems(currentItems => {
         return currentItems.map(currentItem => {
-          if (currentItem.id == id) {
+          if (currentItem.id == product.id) {
             return { ...currentItem, quantity: currentItem.quantity + 1 }
           }
           return currentItem;
@@ -93,5 +96,6 @@ export function ShoppingCartProvider({ children }: shoppingCartProviderProps) {
     cartQuantity
   }}>
     {children}
+    <ShopCartDrawer isOpen={isOpen} />
   </ShoppingCartContext.Provider>)
 }

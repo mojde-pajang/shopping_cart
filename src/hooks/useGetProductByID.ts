@@ -5,28 +5,25 @@ type TypeError = {
   isError: boolean;
   error: string
 }
-export default function useGetProducts() {
-  const [products, setProducts] = useState<ProductProps[]>([]);
+export default function useGetProductByID(id: number) {
+  const [product, setProduct] = useState<ProductProps>();
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState<TypeError>({ isError: false, error: "" });
 
   useEffect(() => {
-    if (products.length) setIsLoading(false)
     
-     fetch('https://fakestoreapi.com/products')
+     fetch('https://fakestoreapi.com/products/'+ id )
         .then(res=>res.json())
        .then(json => {
-         setProducts(json);
-         setIsLoading(false)
+         setProduct(json);
        }).catch(err => {
          setIsError({ isError: true, error: err })
-         setIsLoading(false)
-       })
+       }).finally(()=>setIsLoading(false))
     
   }, [])
   
   return {
-      products,
+      product,
       isLoading,
       isError
     }
