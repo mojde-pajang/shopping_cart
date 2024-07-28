@@ -6,7 +6,7 @@ import { Button } from "../ui/button";
 function CartItem({ id, quantity }: CartItemProps) {
   const { isLoading, isError, product } = useGetProductByID(id);
   const { removeFromCart } = useShoppingCartContext();
-  console.log(5, isLoading, isError, product)
+
   if (isLoading) {
     return <div> loading </div>
   }

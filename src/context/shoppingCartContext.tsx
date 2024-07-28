@@ -2,6 +2,7 @@
 import { createContext, ReactNode, useContext, useState } from "react";
 import ShopCartDrawer from "../components/ShopCartDawer/ShopCartDrawer";
 import { ProductProps } from "../pages/Shop/component/ShopCart";
+import useLocalStorage from "../hooks/useLocalStorage";
 
 type shoppingCartProviderProps = {
   children: ReactNode
@@ -35,7 +36,7 @@ export function useShoppingCartContext() {
 
 export function ShoppingCartProvider({ children }: shoppingCartProviderProps) {
 
-  const [items, setItems] = useState<CartItemProps[]>([]);
+  const [items, setItems] = useLocalStorage<CartItemProps[]>("products", []);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isOpen, setIsOpen] = useState(false);
 
